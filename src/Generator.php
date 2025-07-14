@@ -137,14 +137,14 @@ class Generator implements GeneratorInterface
 
         $required = $default === null && !$type->allowsNull();
         if ($type->isBuiltin()) {
-            return new Property($type->getName(), $options, $title, $description, $required, $default, $format);
+            return new Property($type->getName(), $options, $title, $description, $required, $type->allowsNull(), $default, $format);
         }
 
         // Class or enum
         $class = $type->getName();
 
         return \is_string($class) && \class_exists($class)
-            ? new Property($class, [], $title, $description, $required, $default, $format)
+            ? new Property($class, [], $title, $description, $required, $type->allowsNull(), $default, $format)
             : null;
     }
 }

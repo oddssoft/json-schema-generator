@@ -20,6 +20,7 @@ final class Property implements \JsonSerializable
         public readonly string $title = '',
         public readonly string $description = '',
         public readonly bool $required = false,
+        public readonly bool $allowsNull = false,
         public readonly mixed $default = null,
         public readonly ?Format $format = null,
     ) {
@@ -61,7 +62,7 @@ final class Property implements \JsonSerializable
             return $property;
         }
 
-        $property['type'] = $this->type->value;
+        $property['type'] = $this->allowsNull ? [$this->type->value, Type::Null] : $this->type->value;
 
         if ($this->type === Type::Array) {
             if (\count($this->options) === 1) {
